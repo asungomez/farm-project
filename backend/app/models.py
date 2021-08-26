@@ -1,32 +1,61 @@
+from datetime import  datetime
 from typing import Optional
-import uuid
 from pydantic import BaseModel, Field
+from enum import Enum
+
+
+class GoalStatus(str, Enum):
+    draft = 'Draft'
+    published = 'Published'
+    completed = 'Completed'
+    canceled = 'Canceled'
+    not_completed = 'Not Completed'
 
 
 class GoalModel(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    id: Optional[str] = Field(alias="_id")
+    completion_date: Optional[datetime]
+    description: str = Field(...)
+    due_date: datetime = Field(...)
+    is_key_company_goal: bool = False
     name: str = Field(...)
-    completed: bool = False
+    progress: Optional[float]
+    start_date: Optional[datetime]
+    status: GoalStatus = Field(...)
 
     class Config:
+
         allow_population_by_field_name = True
         schema_extra = {
             "example": {
-                "id": "00010203-0405-0607-0809-0a0b0c0d0e0f",
-                "name": "My important task",
-                "completed": True,
+                "_id": "00010203-0405-0607-0809-0a0b0c0d0e0f",
+                "description": "All infrastructure must be defined as code to allow easier "
+                               "maintenance and scalability",
+                "due_date": 1630421870,
+                "name": "Define infrastructure as code",
+                "status": GoalStatus.draft,
             }
         }
 
 
 class UpdateGoalModel(BaseModel):
+    completion_date: Optional[datetime]
+    description: Optional[str]
+    due_date: Optional[datetime]
+    is_key_company_goal: Optional[bool]
     name: Optional[str]
-    completed: Optional[bool]
+    progress: Optional[float]
+    start_date: Optional[datetime]
+    status: Optional[GoalStatus]
 
     class Config:
+
         schema_extra = {
             "example": {
-                "name": "My important task",
-                "completed": True,
+                "description": "All infrastructure must be defined as code to allow easier "
+                               "maintenance and scalability",
+                "due_date": 1630421870,
+                "name": "Define infrastructure as code",
+                "status": GoalStatus.draft,
             }
         }
