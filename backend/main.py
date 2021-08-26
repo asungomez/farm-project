@@ -32,4 +32,4 @@ async def shutdown_db_client():
     app.mongodb_client.close()
 
 
-app.include_router(router)
+app.include_router(router, tags=["goals"], prefix="/goals")

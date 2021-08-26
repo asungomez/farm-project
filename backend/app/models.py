@@ -28,10 +28,9 @@ class GoalModel(BaseModel):
         allow_population_by_field_name = True
         schema_extra = {
             "example": {
-                "_id": "00010203-0405-0607-0809-0a0b0c0d0e0f",
                 "description": "All infrastructure must be defined as code to allow easier "
                                "maintenance and scalability",
-                "due_date": 1630421870,
+                "due_date": "2021-08-31T14:57:50+00:00",
                 "name": "Define infrastructure as code",
                 "status": GoalStatus.draft,
             }
@@ -54,7 +53,7 @@ class UpdateGoalModel(BaseModel):
             "example": {
                 "description": "All infrastructure must be defined as code to allow easier "
                                "maintenance and scalability",
-                "due_date": 1630421870,
+                "due_date": "2021-08-31T14:57:50+00:00",
                 "name": "Define infrastructure as code",
                 "status": GoalStatus.draft,
             }
