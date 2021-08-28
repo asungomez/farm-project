@@ -31,5 +31,9 @@ async def startup_db_client():
 async def shutdown_db_client():
     app.mongodb_client.close()
 
+@app.get("/ping", response_description="Ping endpoint for health check")
+def pong():
+    return {"ping": "pong!"}
+
 
 app.include_router(router, tags=["goals"], prefix="/goals")
