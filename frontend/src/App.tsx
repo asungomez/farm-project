@@ -1,28 +1,23 @@
-import './App.css';
+import './App.scss';
 
+import { EuiFlexGroup, EuiFlexItem, EuiTitle } from '@elastic/eui';
 import React from 'react';
 
-import logo from './logo.svg';
+import { Empty, GoalsTable } from './components';
+import { useGoals } from './hooks';
 
-function App() {
+export const App: React.FC<{}> = () => {
+  const { goals } = useGoals();
+
+  const content = goals.length > 0 ? <GoalsTable goals={goals} /> : <Empty />;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <EuiFlexGroup direction="column" alignItems="center" gutterSize="xl">
+      <EuiFlexItem grow={false}>
+        <EuiTitle>
+          <h1 className="app__main-title">Goals</h1>
+        </EuiTitle>
+      </EuiFlexItem>
+      <EuiFlexItem>{content}</EuiFlexItem>
+    </EuiFlexGroup>
   );
-}
-
-export default App;
+};
