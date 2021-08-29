@@ -34,8 +34,12 @@ export const createGoalRequest = (goal: Goal): CreateGoalRequest => {
 
 export const goalResponse = (response: GoalResponse): Goal => ({
   ...response,
-  completionDate: response.completion_date,
-  dueDate: response.due_date,
+  completionDate: response.completion_date
+    ? moment(response.completion_date).format(config.dateFormat)
+    : null,
+  dueDate: moment(response.due_date).format(config.dateFormat),
   isKeyCompanyGoal: response.is_key_company_goal,
-  startDate: response.start_date,
+  startDate: response.start_date
+    ? moment(response.start_date).format(config.dateFormat)
+    : null,
 });

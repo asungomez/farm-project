@@ -1,6 +1,11 @@
 import './App.scss';
 
-import { EuiFlexGroup, EuiFlexItem, EuiTitle } from '@elastic/eui';
+import {
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiLoadingSpinner,
+  EuiTitle,
+} from '@elastic/eui';
 import React from 'react';
 import { useState } from 'react';
 
@@ -30,7 +35,7 @@ export const App: React.FC<{}> = () => {
         </EuiFlexItem>
         <EuiFlexItem>
           {loading ? (
-            <>Loading</>
+            <EuiLoadingSpinner color="primary" size="xl" />
           ) : goals.length > 0 ? (
             <GoalsTable goals={goals} onDelete={deleteGoal} />
           ) : (

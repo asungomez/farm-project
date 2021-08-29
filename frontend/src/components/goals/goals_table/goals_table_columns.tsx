@@ -3,9 +3,11 @@ import {
   EuiIcon,
   EuiLoadingSpinner,
   EuiTableActionsColumnType,
+  EuiTableComputedColumnType,
   EuiTableFieldDataColumnType,
 } from '@elastic/eui';
 
+import { GoalStatus } from '../../../models';
 import { GoalTableItem } from './goals_table';
 import { GoalsTableStatus } from './goals_table_status';
 
@@ -19,15 +21,18 @@ const deleteAction = (
     <EuiButtonIcon
       iconType="trash"
       color="danger"
+      aria-label="Delete goal"
       onClick={() => deleteGoal(goal)}
     />
   );
 
 export const columns = (
-  deleteGoal: (goal: GoalTableItem) => void
+  deleteGoal: (goal: GoalTableItem) => void,
+  toggleDetails: (goal: GoalTableItem) => void
 ): (
   | EuiTableFieldDataColumnType<GoalTableItem>
   | EuiTableActionsColumnType<GoalTableItem>
+  | EuiTableComputedColumnType<GoalTableItem>
 )[] => [
   {
     field: 'isKeyCompanyGoal',
@@ -43,7 +48,11 @@ export const columns = (
   {
     field: 'status',
     name: 'Status',
-    render: status => <GoalsTableStatus status={status} />,
+    render: (status: GoalStatus) => <GoalsTableStatus status={status} />,
+  },
+  {
+    field: 'dueDate',
+    name: 'Due date',
   },
   {
     name: 'Actions',
@@ -52,5 +61,17 @@ export const columns = (
         render: goal => deleteAction(goal, deleteGoal),
       },
     ],
+  },
+  {
+    align: 'right',
+    width: '40px',
+    isExpander: true,
+    render: (goal: GoalTableItem) => (
+      <EuiButtonIcon
+        onClick={() => toggleDetails(goal)}
+        aria-label={goal.expanded ? 'Collapse' : 'Expand'}
+        iconType={goal.expanded ? 'arrowUp' : 'arrowDown'}
+      />
+    ),
   },
 ];
