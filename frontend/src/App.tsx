@@ -9,7 +9,7 @@ import { useGoals } from './hooks';
 import { Goal } from './models';
 
 export const App: React.FC<{}> = () => {
-  const { goals, addGoal } = useGoals();
+  const { goals, loading, addGoal, deleteGoal } = useGoals();
   const [displayModal, setDisplayModal] = useState(false);
 
   const onCreateGoal = () => setDisplayModal(true);
@@ -29,8 +29,10 @@ export const App: React.FC<{}> = () => {
           </EuiTitle>
         </EuiFlexItem>
         <EuiFlexItem>
-          {goals.length > 0 ? (
-            <GoalsTable goals={goals} />
+          {loading ? (
+            <>Loading</>
+          ) : goals.length > 0 ? (
+            <GoalsTable goals={goals} onDelete={deleteGoal} />
           ) : (
             <Empty onCreate={onCreateGoal} />
           )}

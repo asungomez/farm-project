@@ -5,11 +5,30 @@ const instance = axios.create({
 });
 
 export class ApiService {
+  public static async delete(endpoint: string): Promise<void> {
+    try {
+      await instance.delete(endpoint);
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
   public static async get(endpoint: string): Promise<any> {
-    return instance.get(endpoint);
+    try {
+      const response = await instance.get(endpoint);
+      return Promise.resolve(response.data);
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 
   public static async post(endpoint: string, body: any = {}): Promise<any> {
-    return instance.post(endpoint, body);
+    try {
+      const response = await instance.post(endpoint, body);
+      return Promise.resolve(response.data);
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 }

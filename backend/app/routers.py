@@ -14,7 +14,8 @@ async def list_goals(request: Request):
     goals = []
     for doc in await request.app.mongodb["goals"].find().to_list(length=100):
         goals.append(doc)
-    return bson_to_json(goals)
+    goals = bson_to_json(goals)
+    return {"goals": goals}
 
 
 @router.post("/", response_description="Add new goal")

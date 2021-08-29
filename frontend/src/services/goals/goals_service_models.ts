@@ -10,3 +10,5 @@ export type CreateGoalRequest = {
   start_date?: string;
   status: GoalStatus;
 };
+
+export type GoalResponse = CreateGoalRequest & { id: string };

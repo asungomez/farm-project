@@ -1,24 +1,11 @@
-import {
-  EuiHealth,
-  EuiSuperSelect,
-  EuiSuperSelectOption,
-  IconColor,
-} from '@elastic/eui';
+import { EuiHealth, EuiSuperSelect, EuiSuperSelectOption } from '@elastic/eui';
 import React from 'react';
 
-import { GOAL_STATUS_OPTIONS, GoalStatus } from '../../../models';
-
-type StatusColors = {
-  [status in GoalStatus]: IconColor;
-};
-
-const colors: StatusColors = {
-  Draft: 'subdued',
-  Published: 'success',
-  Completed: 'success',
-  Canceled: 'danger',
-  'Not Completed': 'warning',
-};
+import {
+  GOAL_STATUS_OPTIONS,
+  GoalStatus,
+  goalStatusColors,
+} from '../../../models';
 
 type GoalsStatusSelectProps = {
   name: string;
@@ -34,7 +21,9 @@ export const GoalsStatusSelect: React.FC<GoalsStatusSelectProps> = ({
   const options: EuiSuperSelectOption<string>[] = GOAL_STATUS_OPTIONS.map(
     status => ({
       value: status,
-      inputDisplay: <EuiHealth color={colors[status]}>{status}</EuiHealth>,
+      inputDisplay: (
+        <EuiHealth color={goalStatusColors[status]}>{status}</EuiHealth>
+      ),
     })
   );
 

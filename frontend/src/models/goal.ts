@@ -1,3 +1,5 @@
+import { IconColor } from '@elastic/eui';
+
 export const GOAL_STATUS_OPTIONS = [
   'Draft',
   'Not Completed',
@@ -7,6 +9,18 @@ export const GOAL_STATUS_OPTIONS = [
 ];
 
 export type GoalStatus = typeof GOAL_STATUS_OPTIONS[number];
+
+type StatusColors = {
+  [status in GoalStatus]: IconColor;
+};
+
+export const goalStatusColors: StatusColors = {
+  Draft: 'default',
+  Published: 'success',
+  Completed: 'success',
+  Canceled: 'danger',
+  'Not Completed': 'warning',
+};
 
 export type Goal = {
   id?: string;
