@@ -9,13 +9,14 @@ import {
 import React from 'react';
 import { useState } from 'react';
 
-import { Empty, Goals, GoalsModal } from './components';
+import { Empty, ErrorMessage, Goals, GoalsModal } from './components';
 import { useGoals } from './hooks';
 import { Goal } from './models';
 
 export const App: React.FC<{}> = () => {
   const {
     goals,
+    error,
     loading,
     searching,
     addGoal,
@@ -51,6 +52,8 @@ export const App: React.FC<{}> = () => {
             >
               <EuiLoadingSpinner color="primary" size="xl" />
             </EuiFlexGroup>
+          ) : error ? (
+            <ErrorMessage />
           ) : goals.length > 0 || searching ? (
             <Goals
               goals={goals}

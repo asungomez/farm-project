@@ -9,13 +9,19 @@ export const useGoals = () => {
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<Goal[]>();
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     if (loading) {
-      GoalsService.getGoals().then(goals => {
-        setGoals(goals);
-        setLoading(false);
-      });
+      GoalsService.getGoals()
+        .then(goals => {
+          setGoals(goals);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError(true);
+          setLoading(false);
+        });
     }
   }, [loading]);
 
@@ -38,6 +44,7 @@ export const useGoals = () => {
 
   return {
     goals: searching ? searchResults : goals,
+    error,
     loading,
     searching,
     addGoal,

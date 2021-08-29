@@ -14,6 +14,7 @@ import { useState } from 'react';
 
 import { Goal } from '../../../models';
 import { GoalsService } from '../../../services';
+import { ErrorMessage } from '../../error';
 import { GoalsForm } from './goals_form';
 
 type GoalsModalProps = {
@@ -26,17 +27,19 @@ export const GoalsModal: React.FC<GoalsModalProps> = ({
   onSubmit,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<boolean>(false);
 
   const handleSubmit = (goal: Goal) => {
     setLoading(true);
+    setError(false);
     GoalsService.createGoal(goal)
       .then(goal => {
         setLoading(false);
         onSubmit(goal);
       })
-      .catch(error => {
+      .catch(() => {
         setLoading(false);
-        console.log(error);
+        setError(true);
       });
   };
 
@@ -53,6 +56,7 @@ export const GoalsModal: React.FC<GoalsModalProps> = ({
       </EuiModalHeader>
 
       <EuiModalBody>
+        {error && <ErrorMessage />}
         <GoalsForm formId="goals-form" onSubmit={handleSubmit} />
       </EuiModalBody>
 

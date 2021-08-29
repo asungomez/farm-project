@@ -1,6 +1,12 @@
 import './goals_table.scss';
 
-import { EuiBasicTable, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
+import {
+  EuiBasicTable,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiGlobalToastList,
+} from '@elastic/eui';
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -24,6 +30,7 @@ export const GoalsTable: React.FC<GoalsTableProps> = ({ goals, onDelete }) => {
   const [itemIdToExpandedRowMap, setItemIdToExpandedRowMap] = useState<{
     [id: string]: React.ReactElement;
   }>({});
+  const [toasts, setToasts] = useState<Toast[]>([]);
 
   const tableItems = useCallback(
     (goals: Goal[]): GoalTableItem[] =>
@@ -47,10 +54,26 @@ export const GoalsTable: React.FC<GoalsTableProps> = ({ goals, onDelete }) => {
 
   const deleteHander = (goal: GoalTableItem) => {
     addLoadingGoal(goal.id);
-    GoalsService.deleteGoal(goal.id).then(() => {
-      deleteLoadingGoal(goal.id);
-      onDelete(goal);
-    });
+    GoalsService.deleteGoal(goal.id)
+      .then(() => {
+        deleteLoadingGoal(goal.id);
+        onDelete(goal);
+      })
+      .catch(() => addErrorToast());
+  };
+
+  const removeToast = (removedToast: Toast) => {
+    setToasts(toasts => toasts.filter(toast => toast.id !== removedToast.id));
+  };
+
+  const addErrorToast = () => {
+    const toast: Toast = {
+      title: 'Something went wrong :(',
+      color: 'danger',
+      id: '0',
+    };
+
+    setToasts(toasts => [...toasts, toast]);
   };
 
   const toggleDetails = (goal: GoalTableItem) => {
@@ -70,16 +93,23 @@ export const GoalsTable: React.FC<GoalsTableProps> = ({ goals, onDelete }) => {
   }, [goals, tableItems]);
 
   return (
-    <EuiFlexGroup direction="row" justifyContent="center" responsive={false}>
-      <EuiFlexItem grow={false}>
-        <EuiBasicTable
-          items={items}
-          columns={columns(deleteHander, toggleDetails)}
-          className="goals-table"
-          itemId="id"
-          itemIdToExpandedRowMap={itemIdToExpandedRowMap}
-        />
-      </EuiFlexItem>
-    </EuiFlexGroup>
+    <>
+      <EuiFlexGroup direction="row" justifyContent="center" responsive={false}>
+        <EuiFlexItem grow={false}>
+          <EuiBasicTable
+            items={items}
+            columns={columns(deleteHander, toggleDetails)}
+            className="goals-table"
+            itemId="id"
+            itemIdToExpandedRowMap={itemIdToExpandedRowMap}
+          />
+        </EuiFlexItem>
+      </EuiFlexGroup>
+      <EuiGlobalToastList
+        toasts={toasts}
+        dismissToast={removeToast}
+        toastLifeTimeMs={6000}
+      />
+    </>
   );
 };
