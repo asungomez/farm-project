@@ -12,7 +12,11 @@ import React from 'react';
 
 import { ReactComponent as Image } from '../../assets/images/tumbleweed.svg';
 
-export const Empty: React.FC<{}> = () => (
+type EmptyProps = {
+  onCreate: () => void;
+};
+
+export const Empty: React.FC<EmptyProps> = ({ onCreate }) => (
   <EuiFlexGroup direction="column" alignItems="center" gutterSize="xs">
     <EuiFlexItem grow={false}>
       <EuiFlexGroup direction="row" justifyContent="center" responsive={false}>
@@ -37,7 +41,9 @@ export const Empty: React.FC<{}> = () => (
     <EuiFlexItem grow={false}>
       <EuiFlexGroup direction="row" justifyContent="center" responsive={false}>
         <EuiFlexItem grow={false}>
-          <EuiButton fill>Create a goal</EuiButton>
+          <EuiButton fill onClick={onCreate}>
+            Create a goal
+          </EuiButton>
         </EuiFlexItem>
       </EuiFlexGroup>
     </EuiFlexItem>

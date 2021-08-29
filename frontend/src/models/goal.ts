@@ -1,12 +1,15 @@
-type GoalStatus =
-  | 'Draft'
-  | 'Published'
-  | 'Completed'
-  | 'Canceled'
-  | 'Not Completed';
+export const GOAL_STATUS_OPTIONS = [
+  'Draft',
+  'Not Completed',
+  'Completed',
+  'Published',
+  'Canceled',
+];
+
+export type GoalStatus = typeof GOAL_STATUS_OPTIONS[number];
 
 export type Goal = {
-  id: string;
+  id?: string;
   completionDate?: string;
   description: string;
   dueDate: string;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Goal } from '../../models/goal';
+import { Goal } from '../../../models/goal';
 
 type GoalsTableProps = {
   goals: Goal[];
