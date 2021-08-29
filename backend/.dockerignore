@@ -1,0 +1,6 @@
+.env
+Dockerfile
+.dockerignore
+Pipfile
+Pipfile.lock
+requirements.in

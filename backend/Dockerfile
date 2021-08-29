@@ -5,8 +5,8 @@ RUN pip install --no-cache-dir -r /usr/src/requirements.txt
 
 EXPOSE 8080
 
-COPY ./__init__.py /service/__init__.py
-COPY ./main.py /service/main.py
+
+COPY ./* /service/
 COPY ./app /service/app
 COPY ./app/utils /service/app/utils
 
