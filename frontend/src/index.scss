@@ -1,1 +1,8 @@
 @import '@elastic/eui/src/theme_light.scss';
+
+html,
+body {
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
