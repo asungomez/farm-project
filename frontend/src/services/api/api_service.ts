@@ -10,6 +10,6 @@ export class ApiService {
   }
 
   public static async post(endpoint: string, body: any = {}): Promise<any> {
-    return instance.get(endpoint, body);
+    return instance.post(endpoint, body);
   }
 }

@@ -4,7 +4,7 @@ import {
   EuiSuperSelectOption,
   IconColor,
 } from '@elastic/eui';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { GOAL_STATUS_OPTIONS, GoalStatus } from '../../../models';
 
@@ -21,11 +21,15 @@ const colors: StatusColors = {
 };
 
 type GoalsStatusSelectProps = {
-  name?: string;
+  name: string;
+  value: GoalStatus;
+  onChange: (e: any) => void;
 };
 
 export const GoalsStatusSelect: React.FC<GoalsStatusSelectProps> = ({
   name,
+  value,
+  onChange,
 }) => {
   const options: EuiSuperSelectOption<string>[] = GOAL_STATUS_OPTIONS.map(
     status => ({
@@ -33,10 +37,14 @@ export const GoalsStatusSelect: React.FC<GoalsStatusSelectProps> = ({
       inputDisplay: <EuiHealth color={colors[status]}>{status}</EuiHealth>,
     })
   );
-  const [value, setValue] = useState<string>(options[0].value);
 
-  const onChange = (value: string) => {
-    setValue(value);
+  const handleChange = (value: string) => {
+    onChange({
+      target: {
+        name,
+        value,
+      },
+    });
   };
 
   return (
@@ -44,7 +52,7 @@ export const GoalsStatusSelect: React.FC<GoalsStatusSelectProps> = ({
       fullWidth
       options={options}
       valueOfSelected={value}
-      onChange={onChange}
+      onChange={handleChange}
       name={name}
     />
   );

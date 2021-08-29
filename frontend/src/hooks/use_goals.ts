@@ -5,5 +5,9 @@ import { Goal } from '../models/goal';
 export const useGoals = () => {
   const [goals, setGoals] = useState<Goal[]>([]);
 
-  return { goals, update: setGoals };
+  const addGoal = (goal: Goal) => {
+    setGoals(goals => [...goals, goal]);
+  };
+
+  return { goals, addGoal };
 };

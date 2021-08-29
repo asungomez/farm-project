@@ -6,13 +6,19 @@ import { useState } from 'react';
 
 import { Empty, GoalsModal, GoalsTable } from './components';
 import { useGoals } from './hooks';
+import { Goal } from './models';
 
 export const App: React.FC<{}> = () => {
-  const { goals } = useGoals();
-  const [displayModal, setDisplayModal] = useState(true);
+  const { goals, addGoal } = useGoals();
+  const [displayModal, setDisplayModal] = useState(false);
 
   const onCreateGoal = () => setDisplayModal(true);
   const closeModal = () => setDisplayModal(false);
+
+  const createGoal = (goal: Goal) => {
+    addGoal(goal);
+    setDisplayModal(false);
+  };
 
   return (
     <>
@@ -30,7 +36,9 @@ export const App: React.FC<{}> = () => {
           )}
         </EuiFlexItem>
       </EuiFlexGroup>
-      {displayModal && <GoalsModal onClose={closeModal} />}
+      {displayModal && (
+        <GoalsModal onClose={closeModal} onSubmit={createGoal} />
+      )}
     </>
   );
 };
