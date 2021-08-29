@@ -9,12 +9,21 @@ import {
 import React from 'react';
 import { useState } from 'react';
 
-import { Empty, GoalsModal, GoalsTable } from './components';
+import { Empty, Goals, GoalsModal } from './components';
 import { useGoals } from './hooks';
 import { Goal } from './models';
 
 export const App: React.FC<{}> = () => {
-  const { goals, loading, addGoal, deleteGoal } = useGoals();
+  const {
+    goals,
+    loading,
+    searching,
+    addGoal,
+    deleteGoal,
+    search,
+    clearSearch,
+  } = useGoals();
+
   const [displayModal, setDisplayModal] = useState(false);
 
   const onCreateGoal = () => setDisplayModal(true);
@@ -33,11 +42,23 @@ export const App: React.FC<{}> = () => {
             <h1 className="app__main-title">Goals</h1>
           </EuiTitle>
         </EuiFlexItem>
-        <EuiFlexItem>
+        <EuiFlexItem className="app__container">
           {loading ? (
-            <EuiLoadingSpinner color="primary" size="xl" />
-          ) : goals.length > 0 ? (
-            <GoalsTable goals={goals} onDelete={deleteGoal} />
+            <EuiFlexGroup
+              direction="row"
+              responsive={false}
+              justifyContent="center"
+            >
+              <EuiLoadingSpinner color="primary" size="xl" />
+            </EuiFlexGroup>
+          ) : goals.length > 0 || searching ? (
+            <Goals
+              goals={goals}
+              onClearSearch={clearSearch}
+              onSearch={search}
+              onCreateGoal={onCreateGoal}
+              onDeleteGoal={deleteGoal}
+            />
           ) : (
             <Empty onCreate={onCreateGoal} />
           )}
