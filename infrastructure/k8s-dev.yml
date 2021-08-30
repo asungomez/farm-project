@@ -8,7 +8,8 @@ spec:
   ports:
     - protocol: "TCP"
       port: 8080
-  type: LoadBalancer
+      nodePort: 30010
+  type: NodePort
 
 ---
 
@@ -22,7 +23,8 @@ spec:
   ports:
     - protocol: "TCP"
       port: 80
-  type: LoadBalancer
+      nodePort: 30080
+  type: NodePort
 
 ---
 
@@ -72,7 +74,7 @@ spec:
     spec:
       containers:
         - name: farm-project-front
-          image: asungomez/farm-project:frontend
+          image: asungomez/farm-project:front
           ports:
             - containerPort: 80
           imagePullPolicy: Always
